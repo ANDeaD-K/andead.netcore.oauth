@@ -49,6 +49,8 @@ namespace andead.netcore.oauth.Controllers
 
                     if (userInfo != null && userInfo.response != null)
                     {
+                        _logger.LogWarning(JsonConvert.SerializeObject(userInfo));
+
                         HttpContext.Response.Cookies.Append("access_token", _jwtManager.GenerateJwtToken(userInfo));
                         return Redirect("/");
                     }
@@ -62,7 +64,7 @@ namespace andead.netcore.oauth.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         public IActionResult GetUserLogin()
-        {            
+        {
             return Ok(JsonConvert.SerializeObject(
                 new
                 {

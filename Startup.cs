@@ -32,18 +32,18 @@ namespace andead.netcore.oauth
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services
-                .AddCors(options =>
-                {
-                    options.AddPolicy("AllowAll",
-                        builder =>
-                        {
-                            builder
-                            .AllowAnyOrigin() 
-                            .AllowAnyMethod()
-                            .AllowAnyHeader()
-                            .AllowCredentials();
-                        });
-                })
+                // .AddCors(options =>
+                // {
+                //     options.AddPolicy("AllowAll",
+                //         builder =>
+                //         {
+                //             builder
+                //             .AllowAnyOrigin() 
+                //             .AllowAnyMethod()
+                //             .AllowAnyHeader()
+                //             .AllowCredentials();
+                //         });
+                // })
                 .AddSingleton(configurationManager)
                 .AddSingleton<JwtManager>()
                 .AddAuthentication(options => 
@@ -80,7 +80,7 @@ namespace andead.netcore.oauth
 
             app.UseAuthentication();
 
-            app.UseCors("AllowAll");
+            // app.UseCors("AllowAll");
             app.UseMvcWithDefaultRoute();
         }
     }
