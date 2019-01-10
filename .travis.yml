@@ -9,6 +9,7 @@ install:
 before_script:
   - chmod a+x ./build.sh
   - chmod a+x ./deploy.sh
+  - chmod a+x ./publish/entrypoint.sh
 script:
   - ./build.sh
 deploy:
