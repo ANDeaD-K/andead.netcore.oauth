@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using andead.netcore.oauth.Managers;
 using andead.netcore.oauth.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +16,6 @@ namespace andead.netcore.oauth.Controllers
     {
         private readonly ILogger _logger;
         private readonly ConfigurationManager _configuration;
-
         private readonly JwtManager _jwtManager;
 
         public OAuthController(ILogger<OAuthController> logger, ConfigurationManager configuration, JwtManager jwtManager)
@@ -65,13 +67,35 @@ namespace andead.netcore.oauth.Controllers
         [ProducesResponseType(401)]
         public IActionResult GetUserLogin()
         {
+            // List<TestResponse> responses = new List<TestResponse>();
+
+            // foreach (var claim in User.Claims)
+            // {
+            //     responses.Add(new TestResponse()
+            //     {
+            //         Name = claim.Subject.Name,
+            //         Issuer = claim.Issuer,
+            //         ClaimType = claim.Type,
+            //         Value = claim.Value
+            //     });
+            // }
+            
             return Ok(JsonConvert.SerializeObject(
                 new
                 {
-                    id = "1",
-                    first_name = User.Identity.Name,
-                    role = "User"
-                }, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+                    id = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value,
+                    first_name = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value,
+                    role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value
+                }, 
+                new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
+    }
+
+    public class TestResponse
+    {
+        public string Name { set; get; }
+        public string Issuer { set; get; }
+        public string ClaimType { set; get; }
+        public string Value { set; get; }
     }
 }
