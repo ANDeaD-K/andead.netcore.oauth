@@ -49,12 +49,8 @@ namespace andead.netcore.oauth.Controllers
 
                     if (userInfo != null && userInfo.response != null)
                     {
-                        // _logger.LogWarning(JsonConvert.SerializeObject(userInfo));
-
                         HttpContext.Response.Cookies.Append("access_token", _jwtManager.GenerateJwtToken(userInfo));
-
                         return Redirect("/");
-                        // return Ok();
                     }
                 }
             }
@@ -66,20 +62,7 @@ namespace andead.netcore.oauth.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         public IActionResult GetUserLogin()
-        {
-            // List<TestResponse> responses = new List<TestResponse>();
-
-            // foreach (var claim in User.Claims)
-            // {
-            //     responses.Add(new TestResponse()
-            //     {
-            //         Name = claim.Subject.Name,
-            //         Issuer = claim.Issuer,
-            //         ClaimType = claim.Type,
-            //         Value = claim.Value
-            //     });
-            // }
-            
+        {            
             return Ok(JsonConvert.SerializeObject(
                 new
                 {
@@ -89,13 +72,5 @@ namespace andead.netcore.oauth.Controllers
                 }, 
                 new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
-    }
-
-    public class TestResponse
-    {
-        public string Name { set; get; }
-        public string Issuer { set; get; }
-        public string ClaimType { set; get; }
-        public string Value { set; get; }
     }
 }
