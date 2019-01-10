@@ -54,7 +54,11 @@ namespace andead.netcore.oauth.Controllers
                         HttpContext.Response.Cookies.Append("access_token", _jwtManager.GenerateJwtToken(userInfo));
                         return Redirect("/");
                     }
+
+                    _logger.LogError("Get user info error");
                 }
+
+                _logger.LogError("Get access token error");
             }
 
             return Unauthorized();
