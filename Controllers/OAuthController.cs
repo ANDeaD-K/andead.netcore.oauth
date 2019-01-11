@@ -28,9 +28,9 @@ namespace andead.netcore.oauth.Controllers
         [HttpGet("vk")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public IActionResult GetAccessToken(string code)
+        public IActionResult GetAccessToken(string code, string state)
         {
-            if (!string.IsNullOrEmpty(code))
+            if (!string.IsNullOrEmpty(code) && !string.IsNullOrEmpty(state))
             {
                 OAuthManager oauthManager = new OAuthManager(_logger);
 
@@ -38,7 +38,7 @@ namespace andead.netcore.oauth.Controllers
                     {
                         ClientId = _configuration.GetValue(ConfigurationKey.CLIENT_ID),
                         ClientSecret = _configuration.GetValue(ConfigurationKey.CLIENT_SECRET),
-                        RedirectUri = _configuration.GetValue(ConfigurationKey.REDIRECT_URI),
+                        RedirectUri = state,
                         Code = code
                     })
                     .Result;

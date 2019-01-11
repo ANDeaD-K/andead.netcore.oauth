@@ -12,7 +12,6 @@ namespace andead.netcore.oauth.Managers
         public const string SIGNING_KEY = "signing-key";
         public const string CLIENT_ID = "client-id";
         public const string CLIENT_SECRET = "client-secret";
-        public const string REDIRECT_URI = "redirect-uri";
     }
 
     public class ConfigurationManager
