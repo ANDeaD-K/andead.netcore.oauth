@@ -34,7 +34,8 @@ namespace andead.netcore.oauth.Controllers
             {
                 OAuthManager oauthManager = new OAuthManager(_logger);
 
-                AccessTokenResponse response = oauthManager.GetAccessTokenAsync(new AccessTokenRequest()
+                AccessTokenResponse response = oauthManager.GetAccessTokenAsync(
+                    new AccessTokenRequest()
                     {
                         ClientId = _configuration.GetValue(ConfigurationKey.CLIENT_ID),
                         ClientSecret = _configuration.GetValue(ConfigurationKey.CLIENT_SECRET),
@@ -49,16 +50,31 @@ namespace andead.netcore.oauth.Controllers
 
                     if (userInfo != null && userInfo.response != null)
                     {
-                        _logger.LogWarning(JsonConvert.SerializeObject(userInfo));
+                        _logger.LogWarning(JsonConvert.SerializeObject(
+                            new
+                            {
+                                info = userInfo
+                            }
+                        ));
 
                         HttpContext.Response.Cookies.Append("access_token", _jwtManager.GenerateJwtToken(userInfo));
                         return Redirect("/");
                     }
 
-                    _logger.LogError("Get user info error");
+                    _logger.LogError(JsonConvert.SerializeObject(
+                        new
+                        {
+                            error = "Invalid user info"
+                        }
+                    ));
                 }
 
-                _logger.LogError("Get access token error");
+                _logger.LogError(JsonConvert.SerializeObject(
+                    new
+                    {
+                        error = "Can't get access token"
+                    }
+                ));
             }
 
             return Unauthorized();
