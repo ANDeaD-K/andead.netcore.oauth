@@ -14,7 +14,7 @@ namespace andead.netcore.oauth.Managers
         private readonly ConfigurationManager _configurationManager;
         private readonly ILogger _logger;
 
-        public JwtManager(ConfigurationManager configurationManager, ILogger logger)
+        public JwtManager(ConfigurationManager configurationManager, ILogger<JwtManager> logger)
         {
             _configurationManager = configurationManager;
             _logger = logger;
